@@ -3,15 +3,15 @@ OTT 프로그램별 커뮤니티 및 실시간 채팅 플랫폼 개인 프로젝
 
 
 
-###	📌 사용할 툴
-IDE : Eclipse STS4
-데이터베이스 : Oracle
-백엔드 : java, myBatis, Spring Boot
-프론트엔드 : HTML, CSS, JavaScript
-템플릿 엔진 : Thymeleaf
-빌드 관리 : Maven
-서버 : Apache Tomcat
-협업 : GitHub
+###	📌 개발 환경
+- IDE : Eclipse STS4
+- 데이터베이스 : Oracle
+- 백엔드 : java, myBatis, Spring Boot
+- 프론트엔드 : HTML, CSS, JavaScript
+- 템플릿 엔진 : Thymeleaf
+- 빌드 관리 : Maven
+- 서버 : Apache Tomcat
+- 협업 : GitHub
 
 
 ### 📌 프로젝트 일정
