@@ -27,3 +27,6 @@ OTT 프로그램별 커뮤니티 및 실시간 채팅 플랫폼 개인 프로젝
 
   웹사이트 이름 겸 프로젝트 이름은 **Together + Chat**을 합쳐서 만들어 보았다.
 
+> 블로그 주소
+https://velog.io/@alswjd404/%EA%B0%9C%EC%9D%B8-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%8B%9C%EC%9E%91
+
