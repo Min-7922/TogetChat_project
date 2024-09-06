@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="UTF-8">
+<title>TogetChat|로그인</title>
+<style>
+	body {
+		background-color: black;
+	}
+	/* 기본 */
+	a {
+		text-decoration: none;
+	}
+	a:hover {
+		cursor: pointer;
+	}
+	.flex {
+		display: flex;
+		align-items: center;
+	}
+	.sb {
+		justify-content: space-between;
+	}
+	ol, ul, li {
+		list-style: none;
+		padding-left: 0;
+	}
+	li > a {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+	a > img {
+		vertical-align: middle;
+	}
+	.frame {
+		width: 1440px;
+	}
+	
+	
+	/* 전체 적용 */
+	body {
+		margin: 0 auto;
+		background-color: black;
+		max-width: 1440px;
+	}
+
+	/* login main */
+	main {
+		position: relative;
+		width: 100%;
+	}
+	main > div {
+		width: 500px;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	form > div {
+		margin: 10px;
+	}
+	.login > p {
+		text-align: center;
+		color: white;
+		font-size: 30px;
+		font-weight: bold;
+	}
+	input,
+	.submit,
+	.joinBtn > a > button {
+		width: 450px;
+		height: 60px;
+		font-size: 20px;
+	}
+	input[type="text"],
+	input[type="password"],
+	input[type="email"] {
+		padding: 2px 15px;
+		background-color: #212121;
+		border: none;
+		border-radius: 2px;
+		color: white;
+	}
+	.submit,
+	.joinBtn > a > button {
+		width: 480px;
+		border: none;
+		background-color: #ffbd4a;
+		font-weight: bold;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+	.submit:hover {
+		background-color: #fdac1f;
+	}
+	.loginText {
+		height: 30px;
+		color: red;
+		text-align: center;
+		font-size: 16px;
+		font-weight: bold;
+
+	}
+	.findAndJoin {
+		margin: 20px auto;
+	}
+	.find {
+		margin: 20px auto;
+		justify-content: space-around;
+	}
+	.find > div > a {
+		font-size: 17px;
+		color: darkgrey;
+	}
+	.find > div > a:hover {
+		color: white;
+	}
+	.findAndJoin > div:nth-child(2) {
+		text-align: center;
+		margin: 40px 0 20px;
+		color: darkgrey;
+		font-size: 20px;
+	}
+	.joinBtn {
+		text-align: center;
+	}
+	.joinBtn > a > button {
+		background-color: darkgrey;
+	}
+	.joinBtn > a > button:hover {
+		background-color: #ffbd4a;
+	}
+	
+</style>
+</head>
+<body>
+
+	<main class="frame">
+		<div>
+			<div class="login">
+				<p>TogetChat 로그인</p>
+				<form method="POST">
+					<div><input id="inputId" type="text" name="userId" placeholder="ID"></div>
+					<div><input id="inputPw" type="password" name="userPw" placeholder="PW"></div>
+					<div><input class="submit" type="submit" value="로그인"></div>
+				</form>
+			</div>
+			<div class="loginText">* 로그인 정보가 일치하지 않습니다</div>
+			<div class="findAndJoin">
+				<div class="flex find">
+					<div><a href="#">아이디 찾기</a></div>
+					<div><a href="#">비밀번호 찾기</a></div>
+				</div>
+				<div>아직 회원이 아니신가요?</div>
+				<div class="joinBtn"><a href="/member/join"><button>회원가입</button></a></div>
+			</div>
+		</div>
+		
+		<input type="hidden" id="errorFlag" th:value="${param.error != null}" />
+    	<input type="hidden" id="successFlag" th:value="${param.joinsuccess != null}" />
+
+    
+		
+	</main>
+	
+	
+	<script>
+		const inputId = document.getElementById('inputId');
+		const inputPw = document.getElementById('inputPw');
+		const loginBtn = document.querySelector('.submit');
+
+		// 로그인 버튼 클릭시
+		loginBtn.addEventListener('click', async function(event) {
+			event.preventDefault(event);
+
+			const url = '/member/login';
+
+			const ob = {
+				userId: inputId.value,
+				userPw: inputPw.value
+			};
+
+			const opt = {
+				method:'POST',
+				body: JSON.stringify(ob),
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8;'
+				}
+			};
+
+			const data = await fetch(url, opt).then(resp => resp.json());
+			if(data == 1) {
+				// 로그인 성공시 대문페이지로 이동
+				location.href='/';
+			}else {
+				// 로그인 실패
+				document.querySelector('.loginText').innerText = 
+					'로그인 정보가 일치하지 않습니다';
+			}
+
+		})
+		function load() {
+			document.querySelector('.loginText').innerText = ''
+		}
+		window.addEventListener('DOMContentLoaded', load);
+	</script>
+
+</body>
+</html>

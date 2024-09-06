@@ -1,5 +1,7 @@
 package com.min.togetChat.entity;
 
+import org.springframework.web.multipart.MultipartFile;
+
 //	IDX      NOT NULL NUMBER        
 //	USERID   NOT NULL VARCHAR2(500) 
 //	USERPW   NOT NULL VARCHAR2(500) 
@@ -18,5 +20,9 @@ public class MemberDTO {
 	private String userPw;
 	private String email;
 	private String nickName;
+	private String profile;
 	private int role;
+	
+	private MultipartFile profileFile;
+	
 }

@@ -4,8 +4,12 @@ import com.min.togetChat.entity.MemberDTO;
 
 public interface MemberService {
 
-	MemberDTO login(MemberDTO member);
+	MemberDTO login(String userId, String userPw);
 
 	int join(MemberDTO member);
+
+	int dupCheck(String column, String value);
+	
+	String getHashPassword(String password);
 
 }

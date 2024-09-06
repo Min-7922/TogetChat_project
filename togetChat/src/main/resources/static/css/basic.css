@@ -1,0 +1,38 @@
+@charset "UTF-8";
+/* 기본 */
+	a {
+		text-decoration: none;
+	}
+	a:hover {
+		cursor: pointer;
+	}
+	.flex {
+		display: flex;
+		align-items: center;
+	}
+	.sb {
+		justify-content: space-between;
+	}
+	ol, ul, li {
+		list-style: none;
+		padding-left: 0;
+	}
+	li > a {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+	a > img {
+		vertical-align: middle;
+	}
+	.frame {
+		width: 1440px;
+	}
+	
+	
+	/* 전체 적용 */
+	body {
+		margin: 0 auto;
+		background-color: black;
+		max-width: 1440px;
+	}

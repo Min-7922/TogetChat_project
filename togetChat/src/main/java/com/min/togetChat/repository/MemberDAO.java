@@ -10,10 +10,13 @@ import com.min.togetChat.entity.MemberDTO;
 public interface MemberDAO {
 	
 	@Select("select * from member where userId = #{userId} and userPw = #{userPw} and rownum = 1")
-	MemberDTO login(MemberDTO member);
+	MemberDTO login(String userId, String userPw);
 	
-	@Insert("insert into member (userId, userPw, nickName, email)"
-			+ "	values (#{userId}, #{userPw}, #{nickName}, #{email})")
+	@Insert("insert into member (userId, userPw, nickName, email, profile)"
+			+ "	values (#{userId}, #{userPw}, #{nickName}, #{email}, #{profile})")
 	int join(MemberDTO member);
+	
+	@Select("select * from member where ${column} = #{value} and rownum = 1")
+	MemberDTO dupCheck(String column, String value);
 
 }

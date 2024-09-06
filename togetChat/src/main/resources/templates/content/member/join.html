@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>TogetChat|로그인</title>
+<style>
+	body {
+		background-color: black;
+	}
+	/* 기본 */
+	a {
+		text-decoration: none;
+	}
+	a:hover {
+		cursor: pointer;
+	}
+	.flex {
+		display: flex;
+		align-items: center;
+	}
+	.sb {
+		justify-content: space-between;
+	}
+	ol, ul, li {
+		list-style: none;
+		padding-left: 0;
+	}
+	li > a {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+	a > img {
+		vertical-align: middle;
+	}
+	.frame {
+		width: 1440px;
+	}
+	
+	
+	/* 전체 적용 */
+	body {
+		margin: 0 auto;
+		background-color: black;
+		max-width: 1440px;
+	}
+
+	/* join main */
+	main {
+		position: relative;
+		width: 100%;
+	}
+	main > div {
+		width: 700px;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+	form > div {
+		margin: 10px;
+	}
+	input,
+	.submit {
+		width: 450px;
+		height: 60px;
+		font-size: 20px;
+	}
+	input[type="text"],
+	input[type="password"],
+	input[type="email"] {
+		padding: 2px 15px;
+		background-color: #212121;
+		border: none;
+		border-radius: 2px;
+		color: white;
+	}
+	.submit {
+		width: 480px;
+		border: none;
+		background-color: #ffbd4a;
+		font-weight: bold;
+		border-radius: 5px;
+		cursor: pointer;
+	}
+	.submit:hover {
+		background-color: #fdac1f;
+	}
+	.checkBtn {
+		width: 85px;
+		height: 59px;
+		border: none;
+		border-radius: 10px;
+		margin: 0 5px;
+		font-size: 16px;
+	}
+	.checkBtn:hover {
+		cursor: pointer;
+		background-color: lightgray;
+	}
+	.pwCheck-text {
+		height: 25px;
+		padding: 0 8px;
+	}
+	.profile > div {
+		color: aliceblue;
+		font-size: 17px;
+		margin: 10px 0;
+	}
+	.profile > div:first-child {
+		font-size: 24px;
+		margin: 30px 0 5px 0;
+		font-weight: bold;
+		color: aliceblue;
+	}
+	.profile > input {
+		color: white;
+		margin: 5px;
+	}
+
+	
+</style>
+</head>
+<body>
+
+	<main class="frame">
+		
+		<div class="join">
+			<p>TogetChat 회원가입</p>
+			<form id="joinForm" method="post" enctype="multipart/form-data">
+				<div class="id">
+					<input type="text" name="userId" placeholder="아이디를 입력하세요" autofocus required>
+					<button class="checkBtn" id="checkId">중복 확인</button>
+				</div>
+				<br>
+				<div><input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력하세요" required></div>
+				<div><input type="password" id="pwCheck" placeholder="비밀번호 다시 입력" required></div>
+				<div class="pwCheck-text"></div>
+				<br>
+				<div class="nickName">
+					<input type="text" name="nickName" placeholder="닉네임" required>
+					<button class="checkBtn" id="checkNickName">중복 확인</button>
+				</div>
+				<div><input type="email" id="email" name="email" placeholder="이메일" required></div>
+				<div class="profile">
+					<div> 프로필 사진</div>
+					<div>* 선택하지 않을시 기본이미지가 적용됩니다</div>
+					<input type="file" id="profile" name="profileFile">
+				</div>
+				<div><button class="submit" id="joinBtn">회원가입</button></div>
+			</form>
+		</div>
+	</main>
+
+	<script>
+		// 중복체크 클릭이벤트
+		const inputId = document.querySelector('.id > input[type="text"]');
+		let isDupId = false;
+		document.getElementById('checkId').addEventListener('click', function(event) {
+			const check = dupCheck(event, 'userId', inputId.value);
+			if(check != 1) { isDupId = true; }
+		});
+
+		const inputNickName = document.querySelector('.nickName > input[type="text"]');
+		let isDupNickName = false;
+		document.getElementById('checkNickName').addEventListener('click', function(event) {
+			const check = dupCheck(event, 'nickName', inputNickName.value);
+			if(check != 1) { isDupNickName = true; }
+		});
+
+		// 중복체크를 하는 함수
+		async function dupCheck(event, checkColumn, checkVal) {
+			event.preventDefault();
+			
+			const url = '/member/dupCheck';
+			const ob = {
+				    column: checkColumn,
+				    value: checkVal
+				};
+			
+			const opt = {
+					method: 'POST',
+					body: JSON.stringify(ob),
+					headers: {
+						'Content-Type': 'application/json; charset=utf-8'
+					}
+				};
+			
+			const data = await fetch(url, opt).then(resp => resp.json());
+			console.log('드디어되나')
+			console.log(data)
+			if(data == 1) {
+				alert('이미 사용중 입니다');
+			}else {
+				alert('사용 가능합니다')
+			}
+			
+			return data; 
+			
+			
+		}
+
+
+		// 아이디/닉네임을 다시 입력시 체크=false
+		inputId.addEventListener('input', function() { isDupId=false });
+		inputNickName.addEventListener('input', function() { isDupNickName=false });
+
+		// =======================================================
+
+		// 비밀번호 입력
+		const inputPassword = document.getElementById('userPw');
+		const pwCheck = document.getElementById('pwCheck');
+		const pwCheckText = document.querySelector('.pwCheck-text');
+		let isDupPw = false;
+
+		// 비밀번호 체크 함수
+		pwCheck.addEventListener('input', function(event) {
+			if(pwCheck.value == inputPassword.value) {
+				pwCheckText.innerText = '입력하신 비밀번호가 일치합니다';
+				pwCheckText.style.color = 'green';
+				isDupPw = true;
+			}else {
+				pwCheckText.innerText = '입력하신 비밀번호가 일치하지 않습니다'
+				pwCheckText.style.color = 'red';
+				isDupPw = false;
+			}
+		})
+
+		// ======================================================= 
+
+		// 회원가입 버튼 누르기
+		const joinBtn = document.getElementById('joinBtn');
+		const inputEmail = document.getElementById('email');
+		const inputProfile = document.getElementById('profile');
+
+		joinBtn.addEventListener('click', async function(event) {
+			event.preventDefault();
+
+			// 중복체크 및 비밀번호일치가 안됐을 때
+			if(isDupId == false || isDupNickName == false) {
+				alert('중복확인 체크를 완료해주세요');
+				return;
+			}
+			if(isDupPw == false) {
+				alert('비밀번호를 확인해주세요');
+				return;
+			}
+			
+			document.getElementById('joinForm').submit();
+
+			// 일치해서 회원가입으로 넘어가기
+			/* const url = '/member/join';
+
+			const formData = new FormData();
+		
+			formData.append('userId', inputId.value);
+			formData.append('nickName', inputNickName.value);
+			formData.append('userPw', inputPassword.value);
+			formData.append('email', inputEmail.value);
+			
+			if(inputProfile.files.length > 0) {
+				formData.append('profileFile', inputProfile.files[0]);
+			}else {
+				formData.append('profileFile', null);
+			}
+			
+			const opt = {
+				method: 'POST',
+				body: formData
+			};
+
+			const data = await fetch(url, opt).then(resp => resp.json());
+			console.log('이건ㄴ또 머임');
+			console.log(data)
+			if(data == 1) {
+				alert('회원가입 성공')
+				location.href='/member/login';
+			}else {
+				alert('회원가입 실패');
+			} */
+		
+		})
+		
+
+	</script>
+
+</body>
+</html>

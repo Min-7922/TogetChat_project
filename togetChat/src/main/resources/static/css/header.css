@@ -1,49 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<style>
-/* 기본 */
-	a {
-		text-decoration: none;
-	}
-	a:hover {
-		cursor: pointer;
-	}
-	.flex {
-		display: flex;
-		align-items: center;
-	}
-	.sb {
-		justify-content: space-between;
-	}
-	ol, ul, li {
-		list-style: none;
-		padding-left: 0;
-	}
-	li > a {
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-	a > img {
-		vertical-align: middle;
-	}
-	.frame {
-		width: 1440px;
-	}
-	
-	
-	/* 전체 적용 */
-	body {
-		margin: 0 auto;
-		background-color: black;
-		max-width: 1440px;
-	}
-	
-	/* header */
+@charset "UTF-8";
+/* header */
 	header {
 		height: 80px;
 		padding: 5px 20px;
@@ -72,14 +28,12 @@
 		align-items: center;
 		width: 100%;
 	}
-	
 	.logo > ul > li > a:hover {
 		color: #ffbd4a;
 	}
 	.nav-menu > ul > li:nth-child(2) img {
 		padding-bottom: 7px;
 	}
-	
 	.search > a > img:first-child {
     	display: block;
 	}
@@ -95,7 +49,6 @@
 	.search > a > img {
 		padding-top: 15px;
 	}
-	
 	.nav-menu > ul > li:nth-child(2) {
 		width: 60px;
 		position: relative;
@@ -105,40 +58,29 @@
 		position: absolute;
 		top: 90%; /* 프로필 이미지 바로 아래에 위치 */
 		right: 10px;
-		width: 280px;
-		background-color: rgb(44, 44, 44);
+		width: 240px;
+		background-color: rgb(64, 64, 64);
 		margin-top: 5px;
-		border: 1px solid grey;
+		border: 1px solid #515151;
 	}
 	.nav-menu > ul > li:nth-child(2):hover .nav-menu-mypage {
 		display: block;
 	}
 	.nav-menu-mypage > li {
-		width: 280px;
+		width: 240px;
 		text-align: center;
 		font-size: 18px;
 		font-weight: bold;
 		color: white;
 	}
 	.nav-menu-mypage > li > a {
-		font-weight: normal;
 		color: white;
-		font-size: 22px;
+		font-size: 16px;
+		line-height: 50px;
 	}
-	.nav-menu-mypage > li:first-child {
-		background-color: rgb(104, 104, 104);
+	.nav-menu-mypage > li:first-child ~ li {
+		height: 50px;
 	}
 	.nav-menu-mypage > li:first-child ~ li:hover {
-		background-color: #ffbd4a;
+		background-color: rgb(91, 91, 91);
 	}
-	.nav-menu-mypage > li:first-child ~ li:hover a {
-		color: black;
-	}
-</style>
-</head>
-<body>
-
-	<header th:replace="/fragments/header :: header"></header>
-
-</body>
-</html>
