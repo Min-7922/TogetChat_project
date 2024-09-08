@@ -5,7 +5,7 @@
 	<header class="frame">
 		<nav class="flex sb">
 			<div class="flex logo">
-				<a href="#"><img src="/images/togetChatLogo.png" height="60px"></a>
+				<a href="/"><img src="/images/togetChatLogo.png" height="60px"></a>
 				<ul class="flex sb">
 					<li><a href="#">드라마</a></li>
 					<li><a href="#">영화</a></li>
@@ -22,10 +22,10 @@
 					    <img src="/images/search_hover.png" height="30px"></a>
 					</li>
 					<li>
-						<a href="#"><img th:src="${login.profile}" height="50px"></a>
+						<img th:src="${session.login.profile}" height="50px">
 						<ul class="nav-menu-mypage">
-							<li th:text="${login.nickName + '님'}"></li>
-							<li><a href="#">마이페이지</a></li>
+							<li th:text="${session.login.nickName + '님'}"></li>
+							<li><a href="/member/mypage">마이페이지</a></li>
 							<li><a href="/member/logout">로그아웃</a></li>
 						</ul>
 					</li>

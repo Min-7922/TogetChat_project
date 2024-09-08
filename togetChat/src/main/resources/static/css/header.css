@@ -53,6 +53,9 @@
 		width: 60px;
 		position: relative;
 	}
+	.nav-menu > ul > li:nth-child(2) > img:hover {
+		cursor: pointer;
+	}
 	.nav-menu-mypage {
 		display: none;
 		position: absolute;

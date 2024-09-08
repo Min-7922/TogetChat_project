@@ -47,31 +47,24 @@ public class MemberController {
 		return result;
 	}
 	
+	// 회원가입 페이지
 	@GetMapping("join")
 	public String join() {
 		return "content/member/join";
 	}
 	
-//	@PostMapping("join") 
-//	@ResponseBody
-//	public int join(@ModelAttribute MemberDTO member, @RequestParam("profileFile") MultipartFile file) {
-//		member.setProfileFile(file);
-//		
-//		int row = service.join(member);
-//		return row;
-//	}
-	
+	// 회원가입 했을 때
 	@PostMapping("join")
 	public String join(MemberDTO member) {
 		int row = service.join(member);
 		
 		if(row == 1) { return "redirect:/"; }
 		else {
-			System.out.println("회원가입 실패");
-			return "content/member/join?memberJoin=false";
+			return "redirect:/member/join?memberJoin=false";
 		}
 	}
 	
+	// 아이디와 닉네임 중복체크
 	@PostMapping("dupCheck")
 	@ResponseBody
 	public int dupCheck(@RequestBody Map<String, String> requestData) {
@@ -81,9 +74,20 @@ public class MemberController {
 		return row;
 	}
 	
+	// 로그아웃
 	@GetMapping("logout")
 	public String logout(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
 	}
+	
+	@GetMapping("mypage")
+	public String mypage() {
+		
+		return "/content/member/mypage";
+	}
+	
+	
+	
+	
 }

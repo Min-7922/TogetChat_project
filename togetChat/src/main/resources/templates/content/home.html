@@ -6,15 +6,83 @@
 	<meta charset="UTF-8">
 	<title>TogetChat</title>
 	<link rel="stylesheet" th:href="@{/css/content/home.css}" />
+	<script th:src="@{/js/home.js}" defer></script>
 </head>
 
 <body>
+	<!-- main1 : 메인 이미지 슬라이더 -->
     <main layout:fragment="content" class="frame">
-		<div class="main1"></div>
-		<div class="main2"></div>
-		<div class="main3"></div>
+		<div class="main1">
+			<ul class="titleimage">
+				<li order="1" class=""><a href="#">
+					<img src="https://image.tving.com/ntgs/operation/banner/2024/07/10/1720588803_1.jpg/dims/resize/F_webp,1920">
+					<img src="https://image.tving.com/ntgs/operation/banner/2024/07/10/1720588787_2.png/dims/resize/F_webp,1024" width="700px" style="background-color: rgba(123, 94, 94, 0.194);">
+				</a></li>
+				<li order="2" class="hidden"><a href="#">
+					<img src="https://image.tving.com/ntgs/operation/banner/2024/08/14/1723598384_1.jpg/dims/resize/F_webp,1920">
+					<img src="https://image.tving.com/ntgs/operation/banner/2024/08/14/1723598376_2.png/dims/resize/F_webp,1024">
+				</a></li>
+				<li order="3" class="hidden"><a href="#">
+					<img src="https://image.tving.com/ntgs/operation/banner/2024/09/02/1725236981_1.jpg/dims/resize/F_webp,1920">
+					<img src="https://image.tving.com/ntgs/operation/banner/2024/09/02/1725236985_1.png/dims/resize/F_webp,1024">
+				</a></li>
+				<li order="4" class="hidden"><a href="#">
+					<img src="https://image.tving.com/ntgs/operation/banner/2024/09/04/1725429175_1.jpg/dims/resize/F_webp,1920">
+					<img src="https://image.tving.com/ntgs/operation/banner/2024/09/04/1725429167_2.png/dims/resize/F_webp,1024">
+				</a></li>
+			</ul>
+			<!-- 좌우 버튼 -->
+			<div class="arrow flex sb">
+				<div order="-1">&lt;</div>
+				<div order="1">&gt;</div>
+			</div>
+		</div>
+
+		<!-- main2 : 인기 프로그램 TOP5 -->
+		<div class="main2">
+			<div>인기 프로그램 TOP5</div>
+			<div>
+				<ul id="programTOP5" class="flex sb wrap">
+					<li><a href="#"><img src="/images/default.png" height="300px" width="220px"></a></li>
+					<li><a href="#"><img src="/images/default.png" height="300px" width="220px"></a></li>
+					<li><a href="#"><img src="/images/default.png" height="300px" width="220px"></a></li>
+					<li><a href="#"><img src="/images/default.png" height="300px" width="220px"></a></li>
+					<li><a href="#"><img src="/images/default.png" height="300px" width="220px"></a></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- main3 : 인기 채팅방 TOP5 -->
+		<div class="main3">
+			<div>실시간 인기 채팅방</div>
+			<div th:if="${!#lists.isEmpty(ChatList)}" class="chat">
+				<ul id="chatRoomsTOP" class="flex">
+					<li><a href="#"></a></li>
+					<li><a href="#"></a></li>
+					<li><a href="#"></a></li>
+					<li><a href="#"></a></li>
+					<li><a href="#"></a></li>
+				</ul>
+			</div>
+			<div th:if="${#lists.isEmpty(ChatList)}" class="emptyList">
+				현재 활성화된 채팅이 없습니다..
+			</div>
+		</div>
+
+		<!-- main4 : 모든 프로그램 -->
+		<div class="main4">
+			<div>전체 프로그램</div>
+			<div id="allProgram" th:if="${!#lists.isEmpty(programList)}">
+				<div th:each="item : ${programList}">
+					<a href="#"><img src="/images/default.png" height="300px" width="200px"></a>
+				</div>
+			</div>
+			
+		</div>
 	</main>
 </body>
+
+
 
 
 
