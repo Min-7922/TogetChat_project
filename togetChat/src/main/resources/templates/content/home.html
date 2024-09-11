@@ -42,8 +42,13 @@
 		<div class="main2">
 			<div>인기 프로그램 TOP5</div>
 			<div>
+				<!-- <ul id="programTOP5" class="flex sb wrap" th:each="program:${programList}">
+					<li><a class="program-aTag" th:href="@{/board/${program.idx}}">
+						<img th:if="${program.image != null}" src="/images/default.png" height="300px" width="220px">
+						<div class="no-image" th:unless="${program.title}"></div>
+					</a></li> -->
 				<ul id="programTOP5" class="flex sb wrap">
-					<li><a href="#"><img src="/images/default.png" height="300px" width="220px"></a></li>
+					<li><a class="program-aTag" href="#"><img src="/images/default.png" height="300px" width="220px"></a></li>
 					<li><a href="#"><img src="/images/default.png" height="300px" width="220px"></a></li>
 					<li><a href="#"><img src="/images/default.png" height="300px" width="220px"></a></li>
 					<li><a href="#"><img src="/images/default.png" height="300px" width="220px"></a></li>
@@ -72,11 +77,14 @@
 		<!-- main4 : 모든 프로그램 -->
 		<div class="main4">
 			<div>전체 프로그램</div>
-			<div id="allProgram" th:if="${!#lists.isEmpty(programList)}">
-				<div th:each="item : ${programList}">
-					<a href="#"><img src="/images/default.png" height="300px" width="200px"></a>
-				</div>
-			</div>
+				<ul id="allProgram" class="flex wrap">
+					<li th:each="program : ${programList}">
+						<a class="program-aTag" href="#">
+							<img th:if="${program.image != null}" th:src="@{/image/programImage/program.image}" height="300px" width="220px">
+							<div class="no-image" th:if="${program.image == null}" th:text=${program.title}></div>
+						</a>
+					</li>
+				</ul>
 			
 		</div>
 	</main>

@@ -7,9 +7,13 @@
 	.hidden {
 		display: none;
 	}
+	.wrap {
+		flex-flow: wrap;
+	}
 	.main1 {
 		height: 500px;
 		position: relative;
+		z-index:1;
 	}
 	.titleimage {
 		margin: 0 auto;
@@ -68,11 +72,13 @@
 		height:330px;
 		padding: 0 10px;
 	}
-	#programTOP5 > li > a > img {
+	#programTOP5 > li > a > img,
+	.no-image {
 		border-radius: 10px;
      	transition-duration: 0.3s;
 	}
-	#programTOP5 > li > a:hover > img {
+	#programTOP5 > li > a:hover > img,
+	.program-aTag:hover > .no-image {
 		transform: translate(0, -10px);
      	transition-duration: 0.3s;
 	}
@@ -99,5 +105,31 @@
 	}
 	
 	.main4 {
-		border: 1px dashed red;
+		
 	}
+	.no-image {
+		height: 300px;
+		width: 220px;
+		background-color: grey;
+		text-align: center;
+		
+		font-size: 25px;
+		color: white;
+		font-weight: bold;
+		
+		display: flex;
+    	justify-content: center;  /* 가로 정렬: 가운데 */
+    	align-items: center;      /* 세로 정렬: 가운데 */
+   	 	padding: 10px;            /* 텍스트와 경계 사이 여백 */
+   	 	box-sizing: border-box;
+    	overflow-wrap: break-word; /* 긴 단어 줄바꿈 */
+	}
+	#allProgram > li {
+		width: 220px;
+		height: 300px;
+		margin: 23px 35px;
+	}
+	#allProgram > li:nth-child(5n+1) {
+		margin-left: 0;
+	}
+	

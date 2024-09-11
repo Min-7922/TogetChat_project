@@ -65,6 +65,7 @@
 		background-color: rgb(64, 64, 64);
 		margin-top: 5px;
 		border: 1px solid #515151;
+		z-index: 100;
 	}
 	.nav-menu > ul > li:nth-child(2):hover .nav-menu-mypage {
 		display: block;
