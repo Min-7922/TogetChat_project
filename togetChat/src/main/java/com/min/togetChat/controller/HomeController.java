@@ -1,11 +1,15 @@
 package com.min.togetChat.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.min.togetChat.entity.MemberDTO;
 import com.min.togetChat.entity.ProgramDTO;
@@ -47,6 +51,20 @@ public class HomeController {
 		}else {
 			return "redirect:/member/login";
 		}
+	}
+	
+	@GetMapping("/search")
+	public String search() {
+		
+		return "content/search";
+	}
+	
+	@PostMapping("/search")
+	@ResponseBody
+	public List<ProgramDTO> getSearchList(@RequestBody HashMap<String, String> map) {
+		String search = map.get("search");
+		List<ProgramDTO> searchList = programservice.getListBySearch(search);
+		return searchList;
 	}
 	
 	

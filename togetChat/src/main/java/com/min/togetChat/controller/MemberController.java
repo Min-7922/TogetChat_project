@@ -37,8 +37,8 @@ public class MemberController {
 	// 로그인 했을 때
 	@PostMapping("login")
 	@ResponseBody
-	public int login(@RequestBody HashMap<String, String> param, HttpSession session) {
-		MemberDTO login = service.login(param.get("userId"), param.get("userPw"));
+	public int login(@RequestBody HashMap<String, String> map, HttpSession session) {
+		MemberDTO login = service.login(map.get("userId"), map.get("userPw"));
 		int result = 0;
 		if(login != null) {
 			session.setAttribute("login", login);

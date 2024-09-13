@@ -127,9 +127,9 @@
 	#allProgram > li {
 		width: 220px;
 		height: 300px;
-		margin: 23px 35px;
+		margin: 20px 35px;
 	}
 	#allProgram > li:nth-child(5n+1) {
-		margin-left: 0;
+		margin-left: 10px;
 	}
 	

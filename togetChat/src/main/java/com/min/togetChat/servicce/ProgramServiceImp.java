@@ -20,5 +20,17 @@ public class ProgramServiceImp implements ProgramService{
 	public List<ProgramDTO> getAllList() {
 		return dao.getAllList();
 	}
+	
+	@Override
+	public List<ProgramDTO> getListByCategory(String category) {
+		return dao.getListByCategory(category);
+	}
+	
+	@Override
+	public List<ProgramDTO> getListBySearch(String search) {
+		search = "%" + search + "%";
+		return dao.getListBySearch(search);
+	}
+	
 
 }

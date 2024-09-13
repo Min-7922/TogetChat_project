@@ -8,4 +8,8 @@ public interface ProgramService {
 
 	List<ProgramDTO> getAllList();
 
+	List<ProgramDTO> getListByCategory(String category);
+
+	List<ProgramDTO> getListBySearch(String search);
+
 }

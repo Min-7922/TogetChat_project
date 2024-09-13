@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="~{layouts/homeLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" th:href="@{/css/content/search.css}" />
+<script th:src="@{/js/search.js}" defer></script>
+</head>
+<body>
+
+<main layout:fragment="content" class="frame">
+	<form class="search-form flex">
+		<input type="search" name="search" placeholder="프로그램 이름 검색">
+		<button>
+			<img class="searchImg" src="/images/search.png" width="35px">
+			<img class="searchImg-hover" src="/images/search_hover.png" width="35px">
+		</button>
+	</form>
+	
+	<div class="result">
+		<div class="result-text"></div>
+		<ul id="result-program" class="flex wrap">
+			<!-- <li><a><img src="/images/default.png" width="150px"></a></li> -->
+		</ul>
+	</div>
+</main>
+
+</body>
+</html>

@@ -77,15 +77,14 @@
 		<!-- main4 : 모든 프로그램 -->
 		<div class="main4">
 			<div>전체 프로그램</div>
-				<ul id="allProgram" class="flex wrap">
-					<li th:each="program : ${programList}">
-						<a class="program-aTag" href="#">
-							<img th:if="${program.image != null}" th:src="@{/image/programImage/program.image}" height="300px" width="220px">
-							<div class="no-image" th:if="${program.image == null}" th:text=${program.title}></div>
-						</a>
-					</li>
-				</ul>
-			
+			<ul id="allProgram" class="flex wrap">
+				<li th:each="program : ${programList}">
+					<a class="program-aTag" href="#">
+						<img th:if="${program.image != null}" th:src="@{/image/programImage/program.image}" height="300px" width="220px">
+						<div class="no-image" th:if="${program.image == null}" th:text=${program.title}></div>
+					</a>
+				</li>
+			</ul>
 		</div>
 	</main>
 </body>
