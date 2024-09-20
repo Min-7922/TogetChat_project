@@ -1,4 +1,4 @@
-package com.min.togetChat.servicce;
+package com.min.togetChat.service;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.min.togetChat.entity.ProgramDTO;
 import com.min.togetChat.repository.ProgramDAO;
-import com.min.togetChat.servicce.serviceInterface.ProgramService;
+import com.min.togetChat.service.serviceInterface.ProgramService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -30,6 +30,11 @@ public class ProgramServiceImp implements ProgramService{
 	public List<ProgramDTO> getListBySearch(String search) {
 		search = "%" + search + "%";
 		return dao.getListBySearch(search);
+	}
+	
+	@Override
+	public ProgramDTO getOne(int idx) {
+		return dao.getOne(idx);
 	}
 	
 

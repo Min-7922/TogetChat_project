@@ -28,8 +28,9 @@
 	.frame {
 		width: 1440px;
 	}
-	
-	/* 전체 적용 */
+	.wrap {
+		flex-wrap: wrap;
+	}
 	body {
 		margin: 0 auto;
 		background-color: black;

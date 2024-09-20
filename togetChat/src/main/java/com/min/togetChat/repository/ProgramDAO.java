@@ -24,5 +24,9 @@ public interface ProgramDAO {
 	
 	@Select("select * from program where title like #{search} order by idx desc")
 	List<ProgramDTO> getListBySearch(String search);
+	
+	// 프로그램 1개 조회
+	@Select("select * from program where idx = #{idx}")
+	ProgramDTO getOne(int idx);
 
 }

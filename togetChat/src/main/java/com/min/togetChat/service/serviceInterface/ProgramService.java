@@ -1,4 +1,4 @@
-package com.min.togetChat.servicce.serviceInterface;
+package com.min.togetChat.service.serviceInterface;
 
 import java.util.List;
 
@@ -11,5 +11,7 @@ public interface ProgramService {
 	List<ProgramDTO> getListByCategory(String category);
 
 	List<ProgramDTO> getListBySearch(String search);
+
+	ProgramDTO getOne(int idx);
 
 }

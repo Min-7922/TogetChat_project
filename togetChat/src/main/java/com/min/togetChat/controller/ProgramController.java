@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.min.togetChat.entity.ProgramDTO;
-import com.min.togetChat.servicce.serviceInterface.ProgramService;
+import com.min.togetChat.service.serviceInterface.ProgramService;
 
 import lombok.RequiredArgsConstructor;
 

@@ -1,4 +1,4 @@
-package com.min.togetChat.servicce;
+package com.min.togetChat.service;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import com.min.togetChat.component.FileComponent;
 import com.min.togetChat.entity.MemberDTO;
 import com.min.togetChat.repository.MemberDAO;
-import com.min.togetChat.servicce.serviceInterface.MemberService;
+import com.min.togetChat.service.serviceInterface.MemberService;
 
 import lombok.RequiredArgsConstructor;
 

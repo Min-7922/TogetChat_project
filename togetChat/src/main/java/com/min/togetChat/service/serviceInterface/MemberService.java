@@ -1,4 +1,4 @@
-package com.min.togetChat.servicce.serviceInterface;
+package com.min.togetChat.service.serviceInterface;
 
 import com.min.togetChat.entity.MemberDTO;
 

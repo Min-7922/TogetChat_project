@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.min.togetChat.entity.MemberDTO;
 import com.min.togetChat.entity.ProgramDTO;
-import com.min.togetChat.servicce.serviceInterface.ProgramService;
+import com.min.togetChat.service.serviceInterface.ProgramService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
