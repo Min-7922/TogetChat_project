@@ -36,3 +36,6 @@
 		background-color: black;
 		max-width: 1440px;
 	}
+	.hidden {
+		display: none;
+	}

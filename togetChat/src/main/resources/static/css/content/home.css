@@ -4,9 +4,7 @@
 		margin: 30px 0;
 		color: white;
 	}
-	.hidden {
-		display: none;
-	}
+	
 	.wrap {
 		flex-flow: wrap;
 	}

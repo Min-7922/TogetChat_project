@@ -1,0 +1,48 @@
+@charset "UTF-8";
+	main {
+		color: white;
+	}
+	form {
+		width: 1200px;
+		margin: 20px auto;
+	}
+	form > p {text-align: center;}
+	input[name="title"] {
+		width: 1000px;
+		height: 50px;
+		font-size: 25px;
+		padding: 5px 15px;
+		font-weight: bold;
+	}
+	input[name="title"]:active {
+		outline: none;
+		box-shadow: none;
+	}
+	form > p > textarea {
+		height: 350px;
+		width: 1000px;
+		resize: none;
+		padding: 20px 15px;
+		font-size: 17px;
+		font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+		word-spacing: 5px;
+	}
+	form > div {
+		margin: 5px auto;
+		width: 1030px;
+	}
+	input[type="submit"] {
+		width: 150px;
+		height: 45px;
+		font-size: 18px;
+		letter-spacing: 3px;
+		border-radius: 20px;
+		background-color: rgb(213, 213, 213);
+		border: none;
+		transition-duration: 0.1s;
+	}
+	input[type="submit"]:hover {
+		background-color: #fdac1f;
+		cursor: pointer;
+		transition-duration: 0.1s;
+	}

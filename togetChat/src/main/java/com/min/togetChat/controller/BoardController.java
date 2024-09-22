@@ -1,6 +1,7 @@
 package com.min.togetChat.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -8,11 +9,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.min.togetChat.entity.BoardDTO;
 import com.min.togetChat.entity.MemberDTO;
 import com.min.togetChat.entity.ProgramDTO;
+import com.min.togetChat.entity.ReplyDTO;
 import com.min.togetChat.service.serviceInterface.BoardService;
 import com.min.togetChat.service.serviceInterface.ProgramService;
 
@@ -46,13 +51,60 @@ public class BoardController {
 	}
 	
 	@PostMapping("write/{programIdx}")
-	public String wirte(@PathVariable int programIdx, BoardDTO boardDTO) throws IllegalStateException, IOException {
+	public String wirte(@PathVariable int programIdx, BoardDTO boardDTO) 
+								throws IllegalStateException, IOException {
 		
 		boardDTO.setProgramIdx(programIdx);
 		boardservice.add(boardDTO);
 		
 		return "redirect:/board/list/" + programIdx;
 	}
+	
+	@GetMapping("view/{boardIdx}")
+	public String view(@PathVariable int boardIdx, Model model) {
+		// 게시글 정보
+		BoardDTO boardDTO = boardservice.selectOne(boardIdx);
+		// 게시글 이미지 정보
+		List<String> images = boardservice.getBoardImages(boardIdx);
+		// 댓글 정보
+		List<ReplyDTO> replyList = boardservice.getReplyList(boardIdx);
+		int replyCount = boardservice.getReplyCount(boardIdx);
+		
+		model.addAttribute("boardDTO", boardDTO);
+		model.addAttribute("images", images);
+		model.addAttribute("replyList", replyList);
+		model.addAttribute("replyCount", replyCount);
+		
+		return "content/board/view";
+	}
+	
+	@PostMapping("writeReply")
+	@ResponseBody
+	public ReplyDTO writeReply(@RequestBody HashMap<String, String> map) {
+		String writer = map.get("writer");
+		int boardIdx = Integer.parseInt(map.get("boardIdx"));
+		String content = map.get("content");
+		
+		ReplyDTO writeReplyDTO = new ReplyDTO();
+		writeReplyDTO.setBoardIdx(boardIdx);
+		writeReplyDTO.setContent(content);
+		writeReplyDTO.setWriter(writer);
+		
+		boardservice.addReply(writeReplyDTO);
+		ReplyDTO replyDTO = boardservice.getReplyOne(writer);
+		
+		return replyDTO;
+	}
+	
+	@PutMapping("replyModify")
+	@ResponseBody
+	public int replyModify(@RequestBody HashMap<String, String> map) {
+		int replyIdx = Integer.parseInt(map.get("replyIdx"));
+		String content = map.get("replyContent");
+		int row = boardservice.replyModify(replyIdx, content);
+		return row;
+	}
+	
 	
 	
 	

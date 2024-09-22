@@ -270,8 +270,7 @@
 			};
 
 			const data = await fetch(url, opt).then(resp => resp.json());
-			console.log('이건ㄴ또 머임');
-			console.log(data)
+			
 			if(data == 1) {
 				alert('회원가입 성공')
 				location.href='/member/login';

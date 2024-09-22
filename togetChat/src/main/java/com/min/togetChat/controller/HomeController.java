@@ -38,7 +38,7 @@ public class HomeController {
 			
 			if(!profile.contains("defaultprofile")) {
 				// 타임리프가 인식할 수 있도록 /uploadFiles/로 시작하는 주소로 바꿔주기
-				String path = realPath.replace("D:/uploadFiles", "/uploadFiles/");
+				String path = realPath.replace("D:/uploadFiles/", "/uploadFiles/");
 				login.setProfile(path + profile);
 			}
 			List<ProgramDTO> programList = programservice.getAllList();

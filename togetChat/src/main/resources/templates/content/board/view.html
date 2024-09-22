@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      >
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style>
+	a {
+		text-decoration: none;
+	}
+	a:hover {
+		cursor: pointer;
+	}
+	.flex {
+		display: flex;
+		align-items: center;
+	}
+	.sb {
+		justify-content: space-between;
+	}
+	ol, ul, li {
+		list-style: none;
+		padding-left: 0;
+	}
+	li > a {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+	a > img {
+		vertical-align: middle;
+	}
+	.frame {
+		width: 1440px;
+	}
+	.wrap {
+		flex-wrap: wrap;
+	}
+	body {
+		margin: 0 auto;
+		background-color: black;
+		max-width: 1440px;
+	}
+	.hidden {
+		display: none;
+	}
+	/* view.html */
+
+	main > div {
+		width: 1000px;
+		margin: 20px auto;
+	}
+	.btnAndViewCount {
+		margin-top: 50px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid gray;
+	}
+	.listBtn > a > button {
+		background-color: lightgray;
+		height: 30px;
+		width: 80px;
+		border: none;
+		padding: 5px 10px;
+		font-size: 15px;
+		letter-spacing: 1px;
+		border-radius: 20px;
+	}
+	.listBtn > a:hover > button {
+		background-color: white;
+		cursor: pointer;
+	}
+	.viewCount > span {
+		color: grey;
+		font-size: 15x;
+	}
+	.title {
+		height: 50px;
+		box-sizing: border-box;
+		background-color: rgb(238, 238, 238);
+		font-size: 25px;
+		line-height: 40px;
+		padding: 5px 20px;
+		border-radius: 5px;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+	.writerAndDate {
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+	.writerAndDate > div{
+		color: lightgray;
+		font-size: 18px;
+		padding: 0 8px;
+	}
+	.content {
+		height: 300px;
+		background-color: rgb(238, 238, 238);
+		box-sizing: border-box;
+		border-radius: 5px;
+		padding: 10px 20px;
+		overflow: auto;
+	}
+	.content img {
+		display: block;
+	}
+
+	.replyCount,
+	.replyList {
+		color: white;
+	}
+	.replyCount {
+		font-size: 23px;
+		font-weight: bold;
+		margin-top: 50px;
+		padding-bottom: 15px;
+		border-bottom: 1px solid gray;
+	}
+	.writeReply > form {
+		position: relative;
+	}
+	.writeReply textarea {
+		width: 1000px;
+		height: 53px;
+		resize: none;
+		box-sizing: border-box;
+		background-color: #dadada;
+		padding: 8px 15px;
+		font-size: 15px;
+		overflow-y: hidden;
+		border-radius: 5px;
+	}
+	.writeReply textarea:focus {
+		outline: none;
+	}
+	.writeReply input[type="submit"] {
+		position: absolute;
+		right: 1px;
+		top: 100%;
+		border: none;
+		width: 100px;
+		height: 35px;
+		font-size: 13px;
+		border-radius: 10px;
+		background-color: grey;
+	}
+	.writeReply input[type="submit"]:hover {
+		cursor: pointer;
+		background-color: white;
+	}
+	.replyList {
+		margin-top: 50px;
+	}
+	.replyOne {
+		margin-top: 30px;
+	}
+	.replyWriter {
+		font-size: 18px;
+		font-weight: bold;
+		margin-right: 25px;
+	}
+	.replyDate {
+		color: grey;
+	}
+	.replyContent {
+		margin-top: 15px;
+	}
+	.noReply {
+		color: lightgray;
+		font-size: 20px;
+	}
+	.footer {margin-bottom: 100px;}
+</style>
+</head>
+<body>
+
+<main class="frame">
+	<div class="flex sb btnAndViewCount">
+		<div class="listBtn"><a th:href="@{/board/list/{programIdx}(programIdx=${boardDTO.programIdx})}"><button>목록</button></a></div>
+		<div class="viewCount">
+			<span>조회수 | </span>
+			<span th:text="${boardDTO.viewCount}"></span>
+		</div>
+	</div>
+	<div class="flex sb writerAndDate">
+		<div class="writer" th:text="${boardDTO.writer}"></div>
+		<div class="wrtieDate" th:text="${#dates.format(boardDTO.writeDate, 'yyyy-MM-dd HH:mm')}"></div>
+	</div>
+	<div class="title" th:text="${boardDTO.title}"></div>
+	<div class="content">
+		<div th:if="images != null" th:each="boardImage : ${images}">
+			<img th:src="${boardImage}" width="300px">
+		</div>
+		<div th:text="${boardDTO.content}"></div>
+	</div>
+	<div class="boardBtn" th:if="${boardDTO.writer == session.login.nickName}">
+		<button class="boardModify">수정</button>
+		<button class="boardDelete">삭제</button>
+	</div>
+	
+	
+	<div class="replyCount">
+		<span>댓글 </span>
+		<span th:text="${replyCount}"></span>
+		<span>개</span>
+	</div>
+	
+	
+	<div class="writeReply">
+		<form>
+			<textarea id="autoSizeTextarea" name="content" placeholder="댓글을 입력하세요"></textarea>
+			<input type="hidden" name="writer" th:value="${session.login.nickName}">
+			<input type="hidden" name="boardIdx" th:value="${boardDTO.idx}">
+			<input type="submit" value="댓글 작성">
+		</form>
+	</div>
+	
+	<div class="replyList">
+		<div th:if="${replyList == null || #lists.isEmpty(replyList)}" class="noReply">
+			아직 작성된 댓글이 없습니다.
+		</div>
+		<div class="replyOne" th:each="reply : ${replyList}">
+			<div class="flex">
+				<div class="replyWriter" th:text="${reply.writer}"></div>
+				<div class="replyDate" th:text="${#dates.format(reply.writeDate,'yyyy-MM-dd HH:mm')}"></div>
+			</div>
+			<div class="replyContent" th:text="${reply.content}"></div>
+			
+			<!-- 수정 textarea -->
+			<div class="modifyTextarea hidden" th:attr="replyIdx=${reply.idx}">
+				<textarea name="replyContent" th:text="${reply.content}"></textarea>
+				<button class="replyModifySubmit">등록</button>
+			</div>
+			
+			<div class="replyBtn flex" th:if="${reply.writer == session.login.nickName}">
+				<button class="replyModify">수정</button>
+				<button class="replyDelete">삭제</button>
+			</div>
+		</div>
+	</div>
+	<div class="footer"></div>
+</main>
+
+<script src="https://unpkg.com/dayjs"></script>
+<script>
+	// 댓글 창 높이 자동 조절
+	const autoSizeTextarea = document.getElementById('autoSizeTextarea');
+
+	autoSizeTextarea.addEventListener('input', function() {
+		autoSizeTextarea.style.height = 'auto';
+		autoSizeTextarea.style.height = (autoSizeTextarea.scrollHeight) + 'px';
+	})
+	
+	// 댓글 작성
+	const writeReplyForm = document.querySelector('.writeReply > form');
+
+	writeReplyForm.addEventListener('submit', async function(event) {
+		event.preventDefault();
+
+		const replyContent = autoSizeTextarea.value;
+		const replyWriter = document.querySelector('.writeReply > form > input[name="writer"]').value;
+		const boardIdx = document.querySelector('.writeReply > form > input[name="boardIdx"]').value;
+
+		const url = '/board/writeReply';
+		const ob = {
+			nickName : replyWriter,
+			writer : replyWriter,
+			content : replyContent,
+			boardIdx : boardIdx
+		};
+
+		const opt = {
+			method: 'POST',
+			body: JSON.stringify(ob),
+			headers: {
+				'Content-Type': 'application/json; charset=utf-8;'
+			}
+		};
+
+		const data = await fetch(url, opt).then(resp => resp.json());
+
+		submitReply(data);
+	});
+
+	function submitReply(replyDTO) {
+		const replyList = document.querySelector('.replyList');
+		const replyWriteDate = dayjs().format('YYYY-MM-DD HH:mm');
+
+		let replyDiv = '';
+		replyDiv += `<div class="replyOne">`;
+		replyDiv += `	<div class="flex"> `;
+		replyDiv += `		<div class="replyWriter">${replyDTO.writer}</div>`;
+		replyDiv += `		<div class="replyDate">${replyWriteDate}</div>`;
+		replyDiv += `	</div>`;
+		replyDiv += `	<div class="replyContent">${replyDTO.content}</div>`;
+		replyDiv += `	<div class="modifyTextarea hidden" replyIdx="${replyDTO.idx}">`;
+		replyDiv += `		<textarea name="replyContent">${replyDTO.content}</textarea>`;
+		replyDiv += `		<button class="replyModifySubmit">등록</button>`;
+		replyDiv += `	</div>`
+		replyDiv += `	<div class="replyBtn flex">`;
+		replyDiv += `		<button class="replyModify">수정</button>`;
+		replyDiv += `		<button class="replyDelete">삭제</button>`;
+		replyDiv += `	</div>`;
+		replyDiv += `</div>`;
+
+		replyList.innerHTML = replyDiv + replyList.innerHTML;
+		
+		const replyCount = document.querySelector('.replyCount > span:nth-child(2)');
+		replyCount.innerText = parseInt(replyCount.innerText) + 1;
+		
+		const noReplyText = document.querySelector('.noReply');
+		
+		if(noReplyText && !noReplyText.classList.contains('hidden')) {
+			noReplyText.classList.add('hidden');
+		}
+	}
+	
+	// 댓글 클릭
+	document.querySelector('.replyList').addEventListener('click', function(event) {
+	    const target = event.target; // 클릭된 요소
+
+	    // 수정 버튼이 클릭되었을 때
+	    if (target.classList.contains('replyModify')) {
+	        const reply = target.closest('.replyOne'); // 해당 댓글 찾기
+	        replyModifyTextarea(reply);
+	    }
+
+	    // 수정 등록 버튼이 클릭되었을 때
+	    if (target.classList.contains('replyModifySubmit')) {
+	        const reply = target.closest('.replyOne'); // 해당 댓글 찾기
+	        replyModifySubmit(reply);
+	    }
+	});
+	
+	
+	
+	
+	// 수정버튼 -> textarea 
+	function replyModifyTextarea(myReply) {
+		const modifyTextarea = myReply.querySelector('.modifyTextarea');
+		modifyTextarea.classList.remove('hidden');
+		myReply.querySelector('.replyBtn').classList.add('hidden');
+		myReply.querySelector('.replyContent').classList.add('hidden');
+	}
+	
+	// 수정 등록 버튼
+	async function replyModifySubmit(myReply) {
+		const modifyTextarea = myReply.querySelector('.modifyTextarea');
+		const replyIdx = modifyTextarea.getAttribute('replyIdx');
+		const modifyContent = modifyTextarea.querySelector('textarea').value;
+		
+		const url = '/board/replyModify';
+		const ob = {
+				replyIdx: replyIdx,
+				replyContent: modifyContent
+		};
+		
+		const opt = {
+				method: 'PUT',
+				body: JSON.stringify(ob),
+				headers: {
+					'Content-Type': 'application/json; charset=utf-8;'
+				}
+		};
+		
+		const data = await fetch(url, opt).then(resp => resp.json());
+		if(data==1) {
+			myReply.querySelector('.replyContent').innerText = modifyContent;
+			modifyTextarea.classList.add('hidden');
+			myReply.querySelector('.replyBtn').classList.remove('hidden');
+			myReply.querySelector('.replyContent').classList.remove('hidden');
+		}
+		
+	}
+</script>
+
+</body>
+</html>
