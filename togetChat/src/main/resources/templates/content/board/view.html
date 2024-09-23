@@ -176,27 +176,29 @@
 <body>
 
 <main class="frame">
-	<div class="flex sb btnAndViewCount">
-		<div class="listBtn"><a th:href="@{/board/list/{programIdx}(programIdx=${boardDTO.programIdx})}"><button>목록</button></a></div>
-		<div class="viewCount">
-			<span>조회수 | </span>
-			<span th:text="${boardDTO.viewCount}"></span>
+	<div class="board">
+		<div class="flex sb btnAndViewCount">
+			<div class="listBtn"><a th:href="@{/board/list/{programIdx}(programIdx=${boardDTO.programIdx})}"><button>목록</button></a></div>
+			<div class="viewCount">
+				<span>조회수 | </span>
+				<span th:text="${boardDTO.viewCount}"></span>
+			</div>
 		</div>
-	</div>
-	<div class="flex sb writerAndDate">
-		<div class="writer" th:text="${boardDTO.writer}"></div>
-		<div class="wrtieDate" th:text="${#dates.format(boardDTO.writeDate, 'yyyy-MM-dd HH:mm')}"></div>
-	</div>
-	<div class="title" th:text="${boardDTO.title}"></div>
-	<div class="content">
-		<div th:if="images != null" th:each="boardImage : ${images}">
-			<img th:src="${boardImage}" width="300px">
+		<div class="flex sb writerAndDate">
+			<div class="writer" th:text="${boardDTO.writer}"></div>
+			<div class="wrtieDate" th:text="${#dates.format(boardDTO.writeDate, 'yyyy-MM-dd HH:mm')}"></div>
 		</div>
-		<div th:text="${boardDTO.content}"></div>
-	</div>
-	<div class="boardBtn" th:if="${boardDTO.writer == session.login.nickName}">
-		<button class="boardModify">수정</button>
-		<button class="boardDelete">삭제</button>
+		<div class="title" th:text="${boardDTO.title}"></div>
+		<div class="content">
+			<div th:each="boardImage : ${images}">
+				<img th:src="${boardImage}" width="300px">
+			</div>
+			<div th:text="${boardDTO.content}"></div>
+		</div>
+		<div class="boardBtn" th:if="${boardDTO.writer == session.login.nickName}">
+			<a th:href="@{/board/modify/{boardIdx}(boardIdx=${boardDTO.idx})}"><button class="boardModify">수정</button></a>
+			<a th:href="@{/board/delete/{boardIdx}(boardIdx=${boardDTO.idx})}"><button class="boardDelete">삭제</button></a>
+		</div>
 	</div>
 	
 	
@@ -220,7 +222,7 @@
 		<div th:if="${replyList == null || #lists.isEmpty(replyList)}" class="noReply">
 			아직 작성된 댓글이 없습니다.
 		</div>
-		<div class="replyOne" th:each="reply : ${replyList}">
+		<div class="replyOne" th:each="reply : ${replyList}" th:attr="replyIdx=${reply.idx}">
 			<div class="flex">
 				<div class="replyWriter" th:text="${reply.writer}"></div>
 				<div class="replyDate" th:text="${#dates.format(reply.writeDate,'yyyy-MM-dd HH:mm')}"></div>
@@ -228,7 +230,7 @@
 			<div class="replyContent" th:text="${reply.content}"></div>
 			
 			<!-- 수정 textarea -->
-			<div class="modifyTextarea hidden" th:attr="replyIdx=${reply.idx}">
+			<div class="modifyTextarea hidden" >
 				<textarea name="replyContent" th:text="${reply.content}"></textarea>
 				<button class="replyModifySubmit">등록</button>
 			</div>
@@ -244,13 +246,25 @@
 
 <script src="https://unpkg.com/dayjs"></script>
 <script>
+	// 게시글 삭제 확인
+	document.querySelector('.boardDelete').addEventListener('click', function(event) {
+		event.preventDefault();
+		
+		const isConfirmed = confirm('게시글을 삭제하시겠습니까?');
+		
+		if(isConfirmed) {
+			const link = event.target.closest('a').getAttribute('href');
+			window.location.href = link;
+		}
+	});
+
 	// 댓글 창 높이 자동 조절
 	const autoSizeTextarea = document.getElementById('autoSizeTextarea');
 
 	autoSizeTextarea.addEventListener('input', function() {
 		autoSizeTextarea.style.height = 'auto';
 		autoSizeTextarea.style.height = (autoSizeTextarea.scrollHeight) + 'px';
-	})
+	});
 	
 	// 댓글 작성
 	const writeReplyForm = document.querySelector('.writeReply > form');
@@ -286,7 +300,8 @@
 	function submitReply(replyDTO) {
 		const replyList = document.querySelector('.replyList');
 		const replyWriteDate = dayjs().format('YYYY-MM-DD HH:mm');
-
+		
+		// 작성한 댓글 추가하기
 		let replyDiv = '';
 		replyDiv += `<div class="replyOne">`;
 		replyDiv += `	<div class="flex"> `;
@@ -306,39 +321,50 @@
 
 		replyList.innerHTML = replyDiv + replyList.innerHTML;
 		
+		// 댓글 수 +1
 		const replyCount = document.querySelector('.replyCount > span:nth-child(2)');
 		replyCount.innerText = parseInt(replyCount.innerText) + 1;
 		
+		// '댓글없음' div 숨기기
 		const noReplyText = document.querySelector('.noReply');
 		
 		if(noReplyText && !noReplyText.classList.contains('hidden')) {
 			noReplyText.classList.add('hidden');
 		}
+		
+		// 댓글 작성 내용 비우기
+		document.querySelector('.writeReply > form > textarea').value = "";
 	}
 	
-	// 댓글 클릭
+	// 댓글 버튼 클릭
 	document.querySelector('.replyList').addEventListener('click', function(event) {
 	    const target = event.target; // 클릭된 요소
 
-	    // 수정 버튼이 클릭되었을 때
+	    // 수정 버튼 클릭
 	    if (target.classList.contains('replyModify')) {
 	        const reply = target.closest('.replyOne'); // 해당 댓글 찾기
 	        replyModifyTextarea(reply);
 	    }
 
-	    // 수정 등록 버튼이 클릭되었을 때
+	    // 수정 등록 버튼 클릭
 	    if (target.classList.contains('replyModifySubmit')) {
 	        const reply = target.closest('.replyOne'); // 해당 댓글 찾기
 	        replyModifySubmit(reply);
+	    }
+	    
+	    if (target.classList.contains('replyDelete')) {
+	    	const reply = target.closest('.replyOne'); // 해당 댓글 찾기
+	    	replyDelete(reply);
 	    }
 	});
 	
 	
 	
-	
-	// 수정버튼 -> textarea 
+	// 수정버튼 -> 수정할 textarea 나타남 
 	function replyModifyTextarea(myReply) {
 		const modifyTextarea = myReply.querySelector('.modifyTextarea');
+		modifyTextarea.querySelector('textarea').value = myReply.querySelector('.replyContent').innerText;
+		
 		modifyTextarea.classList.remove('hidden');
 		myReply.querySelector('.replyBtn').classList.add('hidden');
 		myReply.querySelector('.replyContent').classList.add('hidden');
@@ -347,7 +373,7 @@
 	// 수정 등록 버튼
 	async function replyModifySubmit(myReply) {
 		const modifyTextarea = myReply.querySelector('.modifyTextarea');
-		const replyIdx = modifyTextarea.getAttribute('replyIdx');
+		const replyIdx = myReply.getAttribute('replyIdx');
 		const modifyContent = modifyTextarea.querySelector('textarea').value;
 		
 		const url = '/board/replyModify';
@@ -370,7 +396,50 @@
 			modifyTextarea.classList.add('hidden');
 			myReply.querySelector('.replyBtn').classList.remove('hidden');
 			myReply.querySelector('.replyContent').classList.remove('hidden');
+		} else {
+			alert('댓글 수정에 실패했습니다');
 		}
+		
+	}
+	
+	// 댓글 삭제
+	async function replyDelete(myReply) {
+		const isConfirmed = confirm('댓글을 삭제하시겠습니까?');
+		if(!isConfirmed) {return;}
+		
+		const replyIdx = myReply.getAttribute('replyIdx');
+		
+		const url = '/board/replyDelete?replyIdx=${replyIdx}';
+		
+		const opt = {
+				method: 'DELETE',
+				headers: {
+					'Content-Type':'application/json; charset=utf-8;'
+				}
+		}
+		
+		const data = await fetch(url, opt).then(resp => resp.json());
+		
+		if(data == 1) {
+			// 댓글 내용 없애기
+			myReply.remove();
+			
+			// 댓글 수 -1
+			const replyCount = document.querySelector('.replyCount > span:nth-child(2)');
+			replyCount.innerText = parseInt(replyCount.innerText) - 1;
+			
+			// '댓글없음' div 보이기
+			if(parseInt(replyCount.innerText) - 1 == 0) {
+				const noReplyText = document.querySelector('.noReply');
+				if(noReplyText && noReplyText.classList.contains('hidden')) {
+					noReplyText.classList.remove('hidden');
+				}
+			}
+			
+		} else {
+			alert('댓글 삭제에 실패했습니다');
+		}
+		
 		
 	}
 </script>

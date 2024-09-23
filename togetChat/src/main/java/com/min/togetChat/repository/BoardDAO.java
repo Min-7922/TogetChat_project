@@ -2,6 +2,7 @@ package com.min.togetChat.repository;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -43,6 +44,21 @@ public interface BoardDAO {
 	
 	@Update("update reply set content = #{content} where idx = #{replyIdx}")
 	int replyModify(int replyIdx, String content);
+
+	@Delete("delete reply where idx = #{replyIdx}")
+	int replyDelete(int replyIdx);
+	
+	@Delete("delete boardImage where boardIdx = #{boardIdx} and image = #{image}")
+	int deleteImage(String boardIdx, String image);
+	
+	@Update("update board set title = #{title}, content = #{content} where idx = #{idx} and writer = #{writer}")
+	void boardModify(BoardDTO boardDTO);
+	
+	@Select("select programIdx from board where idx = #{boardIdx}")
+	int getProgramIdxByBoardIdx(int boardIdx);
+	
+	@Delete("delete board where idx = #{boardIdx}")
+	void boardDelete(int boardIdx);
 	
 	
 

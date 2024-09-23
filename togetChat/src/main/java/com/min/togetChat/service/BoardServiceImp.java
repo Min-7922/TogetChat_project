@@ -98,5 +98,52 @@ public class BoardServiceImp implements BoardService{
 	public int replyModify(int replyIdx, String content) {
 		return dao.replyModify(replyIdx, content);
 	}
+	
+	// 댓글 삭제
+	@Override
+	public int replyDelete(int replyIdx) {
+		return dao.replyDelete(replyIdx);
+	}
+	
+	// 게시물의 이미지 삭제
+	@Override
+	public int deleteImage(String boardIdx, String imagePath) {
+		String image = imagePath.substring(imagePath.lastIndexOf("/")+1);
+		int row = dao.deleteImage(boardIdx, image);
+		if(row == 1) {
+			fileComponent.deleteImage(imagePath);
+		}
+		return row;
+	}
+	
+	// 게시글 수정
+	@Override
+	public void boardModify(BoardDTO boardDTO) throws IllegalStateException, IOException {
+		dao.boardModify(boardDTO);
+		
+		if(boardDTO.getFiles() != null && boardDTO.getFiles().length > 0) {
+			MultipartFile[] files = boardDTO.getFiles();
+			
+			for(MultipartFile file : files) {
+				if(!file.isEmpty() && file != null) {
+					String image = fileComponent.getImage(file);
+					dao.addImage(boardDTO.getIdx(), image);
+				}
+			}
+		}
+		
+	} // end of boardModify
+	
+	// 게시물의 프로그램 idx 얻기
+	@Override
+	public int getProgramIdxByBoardIdx(int boardIdx) {
+		return dao.getProgramIdxByBoardIdx(boardIdx);
+	}
+	
+	// 게시물 삭제
+	@Override
+	public void boardDelete(int boardIdx) {
+		dao.boardDelete(boardIdx);
+	}
 
 }

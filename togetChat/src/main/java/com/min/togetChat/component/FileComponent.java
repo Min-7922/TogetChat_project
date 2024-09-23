@@ -49,6 +49,16 @@ public class FileComponent {
  		}
 	}
 	
+	// 경로에서 이미지 삭제하기
+	public void deleteImage(String imagePath) {
+		File file = new File(imagePath);
+		
+		if(file.exists()) {
+			file.delete();
+		}
+		
+	}
+	
 	
 
 }

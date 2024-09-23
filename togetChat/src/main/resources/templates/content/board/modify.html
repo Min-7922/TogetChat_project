@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/homeLayout}">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<link rel="stylesheet" th:href="@{/css/board/write.css}">
+<script th:src="@{/js/board/modify.js}" defer></script>
+
+</head>
+<body>
+
+<main layout:fragment="content" class="frame">
+	<form method="POST" enctype="multipart/form-data">
+		<p><input type="text" name="title" placeholder="제목을 입력하세요" required th:value="${boardDTO.title}"></p>
+		<div class="modifyContent">
+		
+			<div class="boardImages" th:each="boardImage : ${boardImages}">
+				<div class="flex boardImageOne">
+					<img th:src="${boardImage}" height="300px">
+					<button th:attr="boardIdx=${boardDTO.idx}" type="button">삭제</button>
+				</div>
+			</div>
+			
+			<textarea rows="10" cols="100" name="content" placeholder="내용을 입력하세요" required th:text="${boardDTO.content}"></textarea>
+		</div>
+		
+		<div class="flex sb">
+			<p>
+				<label for="file">이미지 첨부 : </label>
+				<input type="file" id="file" name="files" multiple>
+			</p>
+				
+			<p><input type="submit" value="등록"></p>
+		</div>
+		<input type="hidden" name="writer" th:value="${session.login.nickName}">
+	</form>
+	
+	
+</main>
+
+
+</body>
+</html>

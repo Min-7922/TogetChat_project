@@ -26,4 +26,14 @@ public interface BoardService {
 
 	int replyModify(int replyIdx, String content);
 
+	int replyDelete(int replyIdx);
+
+	int deleteImage(String boardIdx, String imagePath);
+
+	void boardModify(BoardDTO boardDTO) throws IllegalStateException, IOException;
+
+	int getProgramIdxByBoardIdx(int boardIdx);
+
+	void boardDelete(int boardIdx);
+
 }

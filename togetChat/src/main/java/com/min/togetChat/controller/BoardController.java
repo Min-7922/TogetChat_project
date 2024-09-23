@@ -6,12 +6,14 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.min.togetChat.entity.BoardDTO;
@@ -104,6 +106,50 @@ public class BoardController {
 		int row = boardservice.replyModify(replyIdx, content);
 		return row;
 	}
+	
+	@DeleteMapping("replyDelete")
+	@ResponseBody
+	public int replyDelete(@RequestParam int replyIdx) {
+		int row = boardservice.replyDelete(replyIdx);
+		return row;
+	}
+	
+	@DeleteMapping("deleteImage")
+	@ResponseBody
+	public int deleteImage(@RequestBody HashMap<String, String> map) {
+		String imagePath = map.get("imagePath");
+		String boardIdx = map.get("boardIdx");
+		
+		int row = boardservice.deleteImage(boardIdx, imagePath);
+		return row;
+	}
+	
+	@GetMapping("modify/{boardIdx}")
+	public String boardModify(@PathVariable int boardIdx, Model model) {
+		BoardDTO boardDTO = boardservice.selectOne(boardIdx);
+		List<String> boardImages = boardservice.getBoardImages(boardIdx);
+		
+		model.addAttribute("boardDTO", boardDTO);
+		model.addAttribute("boardImages", boardImages);
+		
+		return "content/board/modify";
+	}
+	
+	@PostMapping("modify/{boardIdx}")
+	public String boardModify(@PathVariable int boardIdx, BoardDTO boardDTO) throws IllegalStateException, IOException {
+		boardDTO.setIdx(boardIdx);
+		boardservice.boardModify(boardDTO);
+		
+		return "redirect:/board/view/" + boardIdx;
+	}
+	
+	@GetMapping("delete/{boardIdx}")
+	public String getMethodName(@PathVariable int boardIdx) {
+		int programIdx = boardservice.getProgramIdxByBoardIdx(boardIdx);
+		boardservice.boardDelete(boardIdx);
+		return "redirect:/board/list/" + programIdx;
+	}
+	
 	
 	
 	
